@@ -10,17 +10,69 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    //getstoreAndRestoreInDom();
     getstoreAndRestoreInDom();
     
-    var addJobButton = document.getElementById('addJob')
-    addJobButton.addEventListener('click', getAutofill);
+    var newJobForm = document.getElementById('newJob');
+    var settingsForm = document.getElementById('settings');
+    var addJobButton = document.getElementById('addJob');
+    var settingsButton = document.getElementById('changeSettings');
+
+    // addJob form
     addJobButton.addEventListener('click', function() {
-        document.getElementById('newJob').style.display = 'block';
+        getAutofill();
+        settingsForm.style.display = 'none';
+        newJobForm.style.display = 'block';
+    });
+    document.getElementById('saveNewJob').addEventListener('click', saveNewJob);
+    document.getElementById('trashNewJob').addEventListener('click', function() {
+        newJobForm.style.display = 'none';
     });
 
-    document.getElementById('saveNewJob').addEventListener('click', saveNewJob);
-});   
+    // settings form
+    settingsButton.addEventListener('click', function() {
+        getSettings(function(settings){
+            if(settings.autofill != null && settings.autofill == false) {
+                document.getElementById('settingsAutofill').checked = false;
+            } else {
+                document.getElementById('settingsAutofill').checked = true;
+            }
+        });
+        newJobForm.style.display = 'none';
+        settingsForm.style.display = 'block';
+    });
+    document.getElementById('saveSettings').addEventListener('click', function(){
+        saveSettings(function(){
+            settingsForm.style.display = 'none';
+            // load setting after each save
+            loadSettings();
+        });
+    });
+    document.getElementById('trashSettings').addEventListener('click', function() {
+        settingsForm.style.display = 'none';
+    });
+
+    loadSettings();
+});
+
+
+function saveJob(job, callback){
+    chrome.storage.local.get('jobs', function(data){
+        if (chrome.runtime.lastError) {
+            console.log("Error: unable to load jobs from storage")
+        } else {
+            if (!data.jobs) 
+                data.jobs = [];
+
+            data.jobs.push(job);
+            chrome.storage.local.set({'jobs' : data.jobs}, function(){
+                if (chrome.runtime.lastError) 
+                    console.log("Error: unable to save job to storage")
+                callback();
+            });
+        }
+    });
+}
+
 
 function getAutofill() {
     if (autofill) {
@@ -129,8 +181,6 @@ function getstoreAndRestoreInDom(){
 }
 
 function addUrlToDom(jobDetails){
-    // change the text message
-    document.getElementById("div").innerHTML = "<h2>Your Jobs</h2>";
 
     //Inserting HTML text here is a bad idea, as it has potential security holes when
     //  including content not sourced entirely from within your extension (e.g. url).
@@ -173,6 +223,47 @@ function savestore(callback){
     chrome.storage.sync.set({store},function(){
         if(typeof callback === 'function'){
             callback();
+        }
+    });
+}
+
+function getSettings(callback) {
+    chrome.storage.local.get('settings', function(data){
+        if (chrome.runtime.lastError) {
+            console.log("Error: unable to load jobs from storage")
+        } else {
+            if (!data.settings) 
+                data.settings = {};
+                
+            if(typeof callback === 'function') {
+                callback(data.settings);
+            }    
+        }
+    });
+    
+}
+
+function saveSettings(callback) {
+    var settings = {};
+
+    settings.autofill = document.getElementById('settingsAutofill').checked;
+
+    chrome.storage.local.set({'settings' : settings}, function(){
+        if (chrome.runtime.lastError) 
+            console.log("Error: unable to save job to storage")
+
+        if(typeof callback === 'function') {
+            callback();
+        }    
+    });
+}
+
+function loadSettings() {
+    getSettings(function(settings){
+        if(settings.autofill != null && settings.autofill == false) {
+            autofill = false;
+        } else {
+            autofill = true;
         }
     });
 }

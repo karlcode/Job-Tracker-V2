@@ -1,26 +1,45 @@
 html
   head
     title Job App Tracker
+    link(rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato")
     link(rel="stylesheet" type="text/css" href="css/main.min.css")
     script(type="text/javascript" src="js/popup.min.js")
     
       
 
-    
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   body
-    div#newJob
-      
+    div#toolbar
+      div#toolbar-left
+        i#addJob.primary-button(class="fa fa-plus" aria-hidden="true")
+      div#toolbar-right
+        i#export.primary-button(class="fa fa-cloud-upload" aria-hidden="true")
+        i#changeSettings.primary-button(class="fa fa-cog" aria-hidden="true")
+
+    div#newJob.tab
       p Employer
-      textarea#newJobCompany
-      p Job Title
-      textarea#newJobTitle
-      p URL
-      textarea#newJobURL
-      p Description
+      input#newJobCompany(type="text")
+      p Position
+      input#newJobTitle(type="text")
+      p Link
+      input#newJobURL(type="text")
+      p#newJobDesLabel Description
       textarea#newJobDescription
-      button#saveNewJob Save
+      div.actionBar
+        i#saveNewJob.dark-button(class="fa fa-floppy-o" aria-hidden="true")
+        i#trashNewJob.dark-button(class="fa fa-trash-o" aria-hidden="true")
+
+    div#settings.tab
+      div.actionBar
+        i#saveSettings.dark-button(class="fa fa-floppy-o" aria-hidden="true")
+        i#trashSettings.dark-button(class="fa fa-times" aria-hidden="true")
+
+      label
+        input#settingsAutofill(type="checkbox")
+        | Autofill
+        
 
     <div id="div">No content yet! Click the button to add the link of the current website!</div>
     <div><ul id="list"></ul></div>
     <br/>
-    <button id="addJob">Save Job</button>

@@ -1,11 +1,11 @@
 body {
-  font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-  font-size: 100%;
-  min-width: 400px;
+  min-width: 350px;
   
 }
+
+/**
 button {
-    background-color: #ffd740; /* Green */
+    background-color: #ffd740; // Green 
     border: none;
     color: black;
     padding: 15px 32px;
@@ -13,10 +13,11 @@ button {
     text-decoration: none;
     font-size: 16px;
 }
+*/
 
 
 #div {
-  min-width: 400px;
+  min-width: 350px;
   
 }
 
@@ -29,10 +30,7 @@ a {
 }
 
 // New Job
-#newJob {
-  width: 400px;
-  display: none;
-}
+
 textarea{
   width: 100%;
   max-width: 100%;
@@ -48,7 +46,144 @@ li{
     padding-top: 18px;
     border: 1px solid grey;
 }
-#saveNewJob{
- width: 50%;
-  margin: 0 auto;
+
+
+
+$button-fontsize: 20px;
+
+$primary-text: white;
+$primary-text-dark: #222;
+$title-spacing: 0.7px;
+
+$primary: #AA3F39;
+$primary-light: #D4786A;
+$primary-lightest: #FFB6AA;
+$primary-dark: #802415;
+$primary-darkest: #550C00;
+
+$animation-duration: 0.35s;
+
+
+body {
+  font-family: "Lato", sans-serif;
+  margin: 0; 
+  font-size: 14px;
+  
+}
+
+.primary-button {
+  color: $primary-text;
+}
+.primary-button:hover {
+  color: $primary-light;
+  cursor: pointer;
+  transition: color $animation-duration;
+}
+
+.dark-button {
+  color: $primary-dark;
+}
+.dark-button:hover {
+  color: $primary-light;
+  cursor: pointer;
+  transition: color $animation-duration;
+}
+
+/* Toolbar */
+#toolbar {
+  background-color: $primary;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0px 1px 5px 0px #ddd;
+  display: flex;
+  justify-content: space-between;
+
+  #toolbar-left, #toolbar-right {
+    display:inline-block;
+  }
+
+  i {
+    padding: 7px;
+    font-size: $button-fontsize;
+  }
+}
+
+/* Action Bar */
+.actionBar {
+  text-align: right;
+  i {
+    border-radius: 100%;
+    padding: 6px;
+    margin: 4px 0px;
+    font-size: $button-fontsize;
+    font-weight: bold;
+  };
+}
+
+/* Tab */
+.tab {
+  border-bottom: 1px solid #aaa;
+  box-shadow: 0px 1px 5px 0px #aaa;
+  color: $primary-text-dark;
+  display: none;
+  padding: 0px 20px;
+
+  p, label {
+    color: $primary-text-dark;
+    font-weight: bold;
+    font-size: 13px;
+    letter-spacing: $title-spacing;
+    margin: 0px;
+    padding: 15px 7px 4px 7px;
+  }
+}
+
+/* New Job */
+#newJob {
+  #newJobDesLabel {padding-bottom: 10px;}
+
+
+  input {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    color: $primary-text-dark;
+    font-size: 16px;
+    font-weight: light;
+    padding: 5px 2px;
+    width: 300;
+  }
+
+  input:focus {
+    outline: 0;
+    border-bottom: 1px solid $primary-lightest;
+    transition: $animation-duration;
+  }
+
+  textarea {
+    border: 1px solid #ddd;
+    color: $primary-text-dark;
+    font-size: 16px;
+    height: 96px;
+    resize: vertical;
+    padding: 5px 5px;
+    width: 100%;
+  }
+
+  textarea:focus {
+    outline: 0;
+    border: 1px solid $primary-lightest;
+    transition: $animation-duration;
+  }
+}
+
+#settings {
+  padding-bottom: 10px;
+
+  .actionBar {
+  }
+
+  label input[type=checkbox]{
+    position: relative;
+    vertical-align: middle;
+    bottom: 1px;
+  }
 }
