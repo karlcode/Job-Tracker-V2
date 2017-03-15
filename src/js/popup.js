@@ -149,11 +149,16 @@ function addUrlToDom(jobDetails){
     var newLink = document.createElement('a');
     newLink.textContent = jobDetails.title + " | " + jobDetails.company + utcDate;
     
-    console.log(jobDetails.company)
+    var button = document.createElement('button');
+    button.addEventListener('click', function(){console.log("hello")});
+
     newLink.setAttribute('href',jobDetails.url);
     newLink.setAttribute('target','_blank');
     newLine.appendChild(newLink);
+    newLine.appendChild(button);
     document.getElementById("list").appendChild(newLine);
+
+    
 }
 
 function addUrlToListAndSave(jobDetails){
