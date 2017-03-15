@@ -1,11 +1,23 @@
 body {
   font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
   font-size: 100%;
-  min-width: 100%;
+  min-width: 400px;
+  
 }
+button {
+    background-color: #ffd740; /* Green */
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+Try it Yourself »
 
 #div {
   min-width: 400px;
+  
 }
 
 li {
@@ -18,6 +30,25 @@ a {
 
 // New Job
 #newJob {
-  border: 1px solid blue;
+  width: 400px;
   display: none;
+}
+textarea{
+  width: 100%;
+  max-width: 100%;
+  font-family: "Segoe UI";
+}
+ul{
+  margin-right:15px;
+padding:0px;
+
+}
+li{
+  padding-bottom: 4px;
+    padding-top: 18px;
+    border: 1px solid grey;
+}
+#saveNewJob{
+ width: 50%;
+  margin: 0 auto;
 }

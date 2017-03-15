@@ -143,11 +143,13 @@ function addUrlToDom(jobDetails){
     document.getElementById("list").insertAdjacentHTML('beforeend',html);
     */
     //Build the new DOM elements programatically instead:
+    var dt = new Date();
+    var utcDate = dt.toUTCString();
     var newLine = document.createElement('li');
     var newLink = document.createElement('a');
-    newLink.textContent = jobDetails.title;
+    newLink.textContent = jobDetails.title + " | " + jobDetails.company + utcDate;
     
-    console.log(jobDetails.title)
+    console.log(jobDetails.company)
     newLink.setAttribute('href',jobDetails.url);
     newLink.setAttribute('target','_blank');
     newLine.appendChild(newLink);
