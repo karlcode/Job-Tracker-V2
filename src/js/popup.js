@@ -195,17 +195,43 @@ function addUrlToDom(jobDetails){
     //Build the new DOM elements programatically instead:
     var dt = new Date();
     var utcDate = dt.toUTCString();
-    var newLine = document.createElement('li');
-    var newLink = document.createElement('a');
-    newLink.textContent = jobDetails.title + " | " + jobDetails.company + utcDate;
-    
-    var button = document.createElement('button');
-    button.addEventListener('click', function(){console.log("hello")});
+    var p = document.createElement("p");
 
-    newLink.setAttribute('href',jobDetails.url);
-    newLink.setAttribute('target','_blank');
-    newLine.appendChild(newLink);
-    newLine.appendChild(button);
+    var newLine = document.createElement('li');
+    var header = document.createElement('div');
+    var body = document.createElement('div');
+    var descLink = document.createElement('span');
+    var timeLink = document.createElement('span');
+    var titleHead = document.createElement('h4');
+    var employHead = document.createElement('h5');
+    var titleLink = document.createElement('a');
+    var time = "Job application logged at " + utcDate;
+    
+    //var button = document.createElement('button');
+    //button.addEventListener('click', function(){console.log("hello")});
+
+    //header.setAttribute('href',jobDetails.url);
+    //header.setAttribute('target','_blank');
+    header.innerHTML = jobDetails.title.bold() + "   " + jobDetails.company;
+    titleLink.textContent = jobDetails.title;
+    employHead.textContent = "Employer: " + jobDetails.company;
+    descLink.textContent =  jobDetails.description;
+    timeLink.innerHTML = time.italics();
+
+    header.setAttribute('class','collapsible-header');
+    body.setAttribute('class','collapsible-body');
+    titleLink.setAttribute('href',jobDetails.url);
+    titleLink.setAttribute('target','_blank');
+    
+    newLine.appendChild(header);
+    newLine.appendChild(body);
+        body.appendChild(titleHead);
+            titleHead.appendChild(titleLink);
+        body.appendChild(employHead);
+        body.appendChild(descLink);
+        body.appendChild(p);
+        body.appendChild(timeLink);
+    
     document.getElementById("list").appendChild(newLine);
 
     
