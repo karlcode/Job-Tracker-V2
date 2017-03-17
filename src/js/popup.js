@@ -154,7 +154,7 @@ function removeJob(job, node) {
 
 function addUrlToDom(jobDetails){
     var dt = new Date();
-    var utcDate = dt.toUTCString();
+    var utcDate = dt.toUTCString()
     var p = document.createElement("p");
 
     var newLine = document.createElement('li');
@@ -174,10 +174,16 @@ function addUrlToDom(jobDetails){
     trash.addEventListener('click', function(){removeJob(jobDetails, newLine)});
     trash.setAttribute('class','fa fa-trash-o dark-button');
     actionBar.appendChild(trash);
+    var time = "Job application logged at " + jobDetails.utcDate;
     
 
 
     header.innerHTML = jobDetails.title.bold() + "   " + jobDetails.company;
+
+    //header.setAttribute('href',jobDetails.url);
+    //header.setAttribute('target','_blank');
+    header.innerHTML = jobDetails.company.bold()+ "   " + jobDetails.title  ;
+
     titleLink.textContent = jobDetails.title;
     employHead.textContent = "Employer: " + jobDetails.company;
     descLink.textContent =  jobDetails.description;

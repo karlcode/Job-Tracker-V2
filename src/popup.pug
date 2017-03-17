@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 html
   head
     title Job App Tracker
@@ -12,7 +13,7 @@ html
   body
     div#toolbar
       div#toolbar-left
-        i#addJob.primary-button(class="fa fa-plus" aria-hidden="true")
+        // i#addJob.primary-button(class="fa fa-plus" aria-hidden="true")
       div#toolbar-right
         i#export.primary-button(class="fa fa-cloud-upload" aria-hidden="true")
         i#changeSettings.primary-button(class="fa fa-cog" aria-hidden="true")
@@ -37,10 +38,14 @@ html
 
       label
         input#settingsAutofill(type="checkbox")
-        | Autofill
+        | Autofill job data on click
         
 
    
-    <div><ul class="collapsible" data-collapsible="accordion" id="list"></ul></div>
-
-    <br/>
+    #div
+      ul#list.collapsible(data-collapsible='accordion')
+      #listAdd
+        #addJob.dark-button
+          i(class="fa fa-plus" aria-hidden="true")
+          b  Add new job
+        

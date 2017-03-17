@@ -3,6 +3,7 @@
   - description
 */
 function extractMeta(jobDetails) {
+  
   var tag = '';
   var metaName ='';
   var metaContent = '';
@@ -39,7 +40,11 @@ function extractMeta(jobDetails) {
     }
   }  
 }
-
+function extractDate(jobDetails){
+ var dt = new Date();
+  var utcDate = dt.toUTCString();
+  jobDetails.utcDate = utcDate;
+}
 /**extracts from URL:
   - URL
   - company (set to first word in url)
@@ -72,15 +77,19 @@ function findTitle(jobDetails) {
 }
 
 function getJobDetails(){
+  var dt = new Date();
+  var utcDate = dt.toUTCString()
   var jobDetails = {
     company: '',
     description: '',
     title: '',
-    url: ''
+    url: '',
+    utcDate
   };
 
   extractMeta(jobDetails);
   extractURL(jobDetails);
+  extractDate(jobDetails);
 
   if (!jobDetails.title) {
     findTitle(jobDetails);
