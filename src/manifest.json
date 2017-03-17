@@ -1,6 +1,6 @@
 {
     "manifest_version": 2,
-    "name": "URL_save",
+    "name": "Simple Job Tracker",
     "description": "This extension saves an URL and renames the title to the user's wishes and hyperlink the title.",
     "version": "0.1",
 

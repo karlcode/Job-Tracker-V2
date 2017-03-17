@@ -1,9 +1,9 @@
 body {
-  max-width: 400px;
   min-width: 400px;
-  overflow-x: hidden;
-  margin-bottom:0px !important;
+  
+  
 }
+
 
 body::-webkit-scrollbar
 {
@@ -15,6 +15,7 @@ body::-webkit-scrollbar-thumb
 {
 	background-color: gray;
 }
+
 
 
 li {
@@ -32,17 +33,16 @@ textarea{
   max-width: 100%;
   font-family: "Segoe UI";
 }
+ul{
+  margin-right:15px;
+padding:0px;
 
-ul {
-  padding: 0;
-  -webkit-margin-before: 0 !important;
-  -webkit-margin-after: 0 !important;
-  -webkit-margin-start: 0px !important;
-  -webkit-margin-end: 0px !important;
-  -webkit-padding-start: 0px !important;
 }
 
-$button-fontsize: 25px;
+
+
+
+$button-fontsize: 20px;
 
 $primary-text: white;
 $primary-text-dark: #222;
@@ -74,6 +74,7 @@ body {
   cursor: pointer;
   transition: color $animation-duration;
 }
+
 .dark-button {
   color: $primary-dark;
 }
@@ -82,15 +83,6 @@ body {
   cursor: pointer;
   transition: color $animation-duration;
 }
-.grey-button {
-  color: #797572;
-}
-.grey-button:hover {
-  color: #999;
-  cursor: pointer;
-  transition: color $animation-duration;
-}
-
 
 /* Toolbar */
 #toolbar {
@@ -105,7 +97,7 @@ body {
   }
 
   i {
-    padding: 12px;
+    padding: 7px;
     font-size: $button-fontsize;
   }
 }
@@ -125,8 +117,7 @@ body {
 /* Tab */
 .tab {
   border-bottom: 1px solid #aaa;
-  //box-shadow: 0px 1px 5px 0px #aaa;
-  box-shadow: 0px 1px 5px 0px  rgba(170,170,170,0.50);
+  box-shadow: 0px 1px 5px 0px #aaa;
   color: $primary-text-dark;
   display: none;
   padding: 0px 20px;
@@ -141,16 +132,10 @@ body {
   }
 }
 
-#listAdd {
-  width: 100%;
-  margin: 13px auto;
-  text-align: center;
-  display: inline-block;
-}
-
 /* New Job */
 #newJob {
   #newJobDesLabel {padding-bottom: 10px;}
+
 
   input {
     border: none;
@@ -158,7 +143,7 @@ body {
     color: $primary-text-dark;
     font-size: 16px;
     font-weight: light;
-    padding: 5px 0px;
+    padding: 5px 2px;
     width: 100%;
   }
 
@@ -174,8 +159,8 @@ body {
     font-size: 16px;
     height: 96px;
     resize: vertical;
-    padding: 5px 0px;
-    max-width: 100%;
+    padding: 5px 5px;
+    width: 100%;
   }
 
   textarea:focus {
@@ -187,22 +172,20 @@ body {
 
 #settings {
   padding-bottom: 10px;
-
   label input[type=checkbox]{
     position: relative;
     vertical-align: middle;
     bottom: 1px;
   }
-
-  label {
-    display: block;
-  }
 }
 
 .collapsible {
-  border: none;
-  box-shadow: none;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
   margin: 0.5rem 0 1rem 0;
+  
+  
 }
 
 .collapsible-header {
@@ -212,7 +195,7 @@ body {
   line-height: 3rem;
   padding: 0 1rem;
   background-color: #fff;
-  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -230,12 +213,54 @@ body {
 
 .collapsible-body {
   display: none;
-  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   box-sizing: border-box;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  padding-bottom: 2rem;
+  padding: 2rem;
+
+ 
+
+}
+
+
+.side-nav .collapsible,
+.side-nav.fixed .collapsible {
+  border: none;
+  box-shadow: none;
+}
+
+.side-nav .collapsible li,
+.side-nav.fixed .collapsible li {
+  padding: 0;
+}
+
+.side-nav .collapsible-header,
+.side-nav.fixed .collapsible-header {
+  background-color: transparent;
+  border: none;
+  line-height: inherit;
+  height: inherit;
+  padding: 0 16px;
+}
+
+.side-nav .collapsible-header:hover,
+.side-nav.fixed .collapsible-header:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.side-nav .collapsible-header i,
+.side-nav.fixed .collapsible-header i {
+  line-height: inherit;
+}
+
+.side-nav .collapsible-body,
+.side-nav.fixed .collapsible-body {
+  border: 0;
   background-color: #fff;
+}
+
+.side-nav .collapsible-body li a,
+.side-nav.fixed .collapsible-body li a {
+  padding: 0 23.5px 0 31px;
 }
 
 .collapsible.popout {
@@ -253,3 +278,4 @@ body {
   box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
   margin: 16px 0;
 }
+

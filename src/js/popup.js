@@ -1,5 +1,6 @@
 // global variables
 var autofill = true;
+var warning = false;
 var jobList = [];
 
 // messaging
@@ -35,6 +36,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('settingsAutofill').checked = false;
             } else {
                 document.getElementById('settingsAutofill').checked = true;
+            }
+            if(settings.warning != null && settings.warning == false) {
+                document.getElementById('settingsWarning').checked = false;
+            } else {
+                document.getElementById('settingsWarning').checked = true;
             }
         });
         newJobForm.style.display = 'none';
@@ -122,6 +128,7 @@ function getNewJobForm() {
     job.title = document.getElementById('newJobTitle').value;
     job.url = document.getElementById('newJobURL').value;
     job.description = document.getElementById('newJobDescription').value;
+    job.date = formatDate(new Date());
     return job;
 }
 
@@ -144,17 +151,24 @@ function getstoreAndRestoreInDom(){
 }
 
 function removeJob(job, node) {
-    var index = jobList.indexOf(job);
-    if (index > -1) {
-        jobList.splice(index, 1);
+    if (warning && !confirm('Are you sure you want to delete?')) {} else {
+        var index = jobList.indexOf(job);
+        if (index > -1) {
+            jobList.splice(index, 1);
+        }
+        saveJobs();
+        $(node).remove();
     }
-    saveJobs();
-    $(node).remove();
+}
+
+function formatDate(date) {
+    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    return monthNames[date.getMonth() - 1] + ' ' + date.getDay() + ' ' + date.getFullYear();
 }
 
 function addUrlToDom(jobDetails){
-    var dt = new Date();
-    var utcDate = dt.toUTCString()
     var p = document.createElement("p");
 
     var newLine = document.createElement('li');
@@ -166,15 +180,14 @@ function addUrlToDom(jobDetails){
     var titleHead = document.createElement('h4');
     var employHead = document.createElement('h5');
     var titleLink = document.createElement('a');
-    var time = "Job application logged at " + utcDate;
 
     var actionBar = document.createElement('div');
     actionBar.setAttribute('class', 'actionBar');
     var trash = document.createElement('i');
     trash.addEventListener('click', function(){removeJob(jobDetails, newLine)});
-    trash.setAttribute('class','fa fa-trash-o dark-button');
+    trash.setAttribute('class','fa fa-trash-o grey-button');
     actionBar.appendChild(trash);
-    var time = "Job application logged at " + jobDetails.utcDate;
+    console.log(jobDetails);
     
 
 
@@ -184,10 +197,14 @@ function addUrlToDom(jobDetails){
     //header.setAttribute('target','_blank');
     header.innerHTML = jobDetails.company.bold()+ "   " + jobDetails.title  ;
 
-    titleLink.textContent = jobDetails.title;
+    var titleLinkTemp = '<i class="fa fa-link" aria-hidden="true"></i>' + " ";
+    if (jobDetails.title == '') {
+        titleLinkTemp += 'Link'
+    }
+    titleLink.innerHTML = titleLinkTemp + jobDetails.title;
     employHead.textContent = "Employer: " + jobDetails.company;
     descLink.textContent =  jobDetails.description;
-    timeLink.innerHTML = time.italics();
+    timeLink.innerHTML = '<i class="fa fa-calendar" aria-hidden="true"></i> created ' + jobDetails.date.italics();
 
     header.setAttribute('class','collapsible-header');
     body.setAttribute('class','collapsible-body');
@@ -227,6 +244,7 @@ function saveSettings(callback) {
     var settings = {};
 
     settings.autofill = document.getElementById('settingsAutofill').checked;
+    settings.warning = document.getElementById('settingsWarning').checked;
 
     chrome.storage.local.set({'settings' : settings}, function(){
         if (chrome.runtime.lastError) 
@@ -244,6 +262,12 @@ function loadSettings() {
             autofill = false;
         } else {
             autofill = true;
+        }
+
+        if(settings.warning != null && settings.warning) {
+            warning = true;
+        } else {
+            warning = false;
         }
     });
 }

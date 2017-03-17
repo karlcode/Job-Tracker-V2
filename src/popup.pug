@@ -35,17 +35,21 @@ html
       div.actionBar
         i#saveSettings.dark-button(class="fa fa-floppy-o" aria-hidden="true")
         i#trashSettings.dark-button(class="fa fa-times" aria-hidden="true")
-
       label
         input#settingsAutofill(type="checkbox")
-        | Autofill job data on click
+        | Autofill job data
+      label
+        input#settingsWarning(type="checkbox")
+        | Warning before delete
+
+    #listAdd
+      #addJob.dark-button
+        i(class="fa fa-plus" aria-hidden="true")
+        b  Add Job
         
 
    
     #div
       ul#list.collapsible(data-collapsible='accordion')
-      #listAdd
-        #addJob.dark-button
-          i(class="fa fa-plus" aria-hidden="true")
-          b  Add new job
+
         
