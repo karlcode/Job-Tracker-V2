@@ -20,13 +20,18 @@ gulp.task('css', function() {
 });
 
 gulp.task('js', function() {
-  return gulp.src('src/js/**/*.js')
+  return gulp.src('src/js/*.js')
     .pipe(gulp.dest('dist/js'))
     .pipe(babel({
       presets: ['es2015']
     }))
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
+    .pipe(gulp.dest('dist/js'))
+});
+
+gulp.task('jsLibraries', function() {
+  return gulp.src('src/js/libraries/*.js')
     .pipe(gulp.dest('dist/js'))
 });
 
@@ -51,10 +56,11 @@ gulp.task('clean:dist', function() {
   return del.sync('dist');
 })
 
-gulp.task('watch', ['css', 'html', 'js', 'images', 'manifest'], function() {
+gulp.task('watch', ['css', 'html', 'js', 'images', 'manifest', 'jsLibraries'], function() {
     gulp.watch('src/css/*.scss', ['css']);
     gulp.watch('src/*.pug', ['html']);
     gulp.watch('src/js/*.js', ['js']);
+    gulp.watch('src/js/libraries/*.js', ['jsLibraries']);
     gulp.watch('src/images/*', ['images']);
     gulp.watch('src/manifest.json', ['manifest']);
 })

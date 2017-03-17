@@ -1,6 +1,6 @@
 // global variables
-var store=[];
 var autofill = true;
+var jobList = [];
 
 // messaging
 chrome.runtime.onMessage.addListener(function(request, sender) {
@@ -54,26 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
     loadSettings();
 });
 
-
-function saveJob(job, callback){
-    chrome.storage.local.get('jobs', function(data){
-        if (chrome.runtime.lastError) {
-            console.log("Error: unable to load jobs from storage")
-        } else {
-            if (!data.jobs) 
-                data.jobs = [];
-
-            data.jobs.push(job);
-            chrome.storage.local.set({'jobs' : data.jobs}, function(){
-                if (chrome.runtime.lastError) 
-                    console.log("Error: unable to save job to storage")
-                callback();
-            });
-        }
-    });
-}
-
-
 function getAutofill() {
     if (autofill) {
         chrome.tabs.executeScript(null, {
@@ -103,41 +83,23 @@ function addNewJob(autofillData) {
     }
 
     setNewJobForm(newJob);
-    /** 
-     * ---
-     * --- DELETE IF NO LONGER NEEDED
-     * ---
-    chrome.tabs.query({currentWindow: true,active: true}, function(jobDetails) {
-        if(store.indexOf(jobDetails) === -1){
-            //Don't add duplicates
-            addUrlToListAndSave(jobDetails);
-            addUrlToDom(jobDetails);
-        }
-    }); */
 }
 
 function saveNewJob() {
-    saveJob(getNewJobForm(), function() {
+    jobList.push(getNewJobForm());
+    saveJobs(function() {
         getstoreAndRestoreInDom();
         document.getElementById('newJob').style.display = 'none';
     });
 }
 
-function saveJob(job, callback){
-    chrome.storage.local.get('jobs', function(data){
-        if (chrome.runtime.lastError) {
-            console.log("Error: unable to load jobs from storage")
-        } else {
-            if (!data.jobs) 
-                data.jobs = [];
-
-            data.jobs.push(job);
-            chrome.storage.local.set({'jobs' : data.jobs}, function(){
-                if (chrome.runtime.lastError) 
-                    console.log("Error: unable to save job to storage")
-                callback();
-            });
-        }
+function saveJobs(callback){
+    chrome.storage.local.set({'jobs' : jobList}, function(){
+        if (chrome.runtime.lastError) 
+            console.log("Error: unable to save job to storage")
+        if(typeof callback === 'function') {
+            callback();
+        }    
     });
 }
 
@@ -148,6 +110,7 @@ function getJobs(callback) {
         } else {
             if (!data.jobs)
                 data.jobs = [];
+            jobList = data.jobs;
             callback(data.jobs);
         }
     });
@@ -180,24 +143,22 @@ function getstoreAndRestoreInDom(){
     });
 }
 
-function addUrlToDom(jobDetails){
+function removeJob(job, node) {
+    var index = jobList.indexOf(job);
+    if (index > -1) {
+        jobList.splice(index, 1);
+    }
+    saveJobs();
+    $(node).remove();
+}
 
-    //Inserting HTML text here is a bad idea, as it has potential security holes when
-    //  including content not sourced entirely from within your extension (e.g. url).
-    //  Inserting HTML text is fine if it is _entirely_ sourced from within your
-    //  extension.
-    /*
-    // format HTML
-    var html = '<li><a href=' + url + " target='_blank'>" + url + '</a></li>';
-    //Add URL to DOM
-    document.getElementById("list").insertAdjacentHTML('beforeend',html);
-    */
-    //Build the new DOM elements programatically instead:
+function addUrlToDom(jobDetails){
     var dt = new Date();
     var utcDate = dt.toUTCString();
     var p = document.createElement("p");
 
     var newLine = document.createElement('li');
+    newLine.jobDetails = jobDetails;
     var header = document.createElement('div');
     var body = document.createElement('div');
     var descLink = document.createElement('span');
@@ -206,12 +167,16 @@ function addUrlToDom(jobDetails){
     var employHead = document.createElement('h5');
     var titleLink = document.createElement('a');
     var time = "Job application logged at " + utcDate;
-    
-    //var button = document.createElement('button');
-    //button.addEventListener('click', function(){console.log("hello")});
 
-    //header.setAttribute('href',jobDetails.url);
-    //header.setAttribute('target','_blank');
+    var actionBar = document.createElement('div');
+    actionBar.setAttribute('class', 'actionBar');
+    var trash = document.createElement('i');
+    trash.addEventListener('click', function(){removeJob(jobDetails, newLine)});
+    trash.setAttribute('class','fa fa-trash-o dark-button');
+    actionBar.appendChild(trash);
+    
+
+
     header.innerHTML = jobDetails.title.bold() + "   " + jobDetails.company;
     titleLink.textContent = jobDetails.title;
     employHead.textContent = "Employer: " + jobDetails.company;
@@ -225,32 +190,15 @@ function addUrlToDom(jobDetails){
     
     newLine.appendChild(header);
     newLine.appendChild(body);
-        body.appendChild(titleHead);
-            titleHead.appendChild(titleLink);
-        body.appendChild(employHead);
-        body.appendChild(descLink);
-        body.appendChild(p);
-        body.appendChild(timeLink);
+    body.appendChild(titleHead);
+    titleHead.appendChild(titleLink);
+    body.appendChild(employHead);
+    body.appendChild(descLink);
+    body.appendChild(p);
+    body.appendChild(timeLink);
+    body.appendChild(actionBar);
     
     document.getElementById("list").appendChild(newLine);
-
-    
-}
-
-function addUrlToListAndSave(jobDetails){
-    if(store.indexOf(jobDetails) === -1){
-        //URL is not already in list
-        store.push(jobDetails);
-        savestore();
-    }
-}
-
-function savestore(callback){
-    chrome.storage.sync.set({store},function(){
-        if(typeof callback === 'function'){
-            callback();
-        }
-    });
 }
 
 function getSettings(callback) {
