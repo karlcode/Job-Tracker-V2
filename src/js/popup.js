@@ -194,7 +194,7 @@ function addUrlToDom(jobDetails){
     */
     //Build the new DOM elements programatically instead:
     var dt = new Date();
-    var utcDate = dt.toUTCString();
+    var utcDate = dt.toUTCString()
     var p = document.createElement("p");
 
     var newLine = document.createElement('li');
@@ -205,14 +205,14 @@ function addUrlToDom(jobDetails){
     var titleHead = document.createElement('h4');
     var employHead = document.createElement('h5');
     var titleLink = document.createElement('a');
-    var time = "Job application logged at " + utcDate;
+    var time = "Job application logged at " + jobDetails.utcDate;
     
     //var button = document.createElement('button');
     //button.addEventListener('click', function(){console.log("hello")});
 
     //header.setAttribute('href',jobDetails.url);
     //header.setAttribute('target','_blank');
-    header.innerHTML = jobDetails.title.bold() + "   " + jobDetails.company;
+    header.innerHTML = jobDetails.company.bold()+ "   " + jobDetails.title  ;
     titleLink.textContent = jobDetails.title;
     employHead.textContent = "Employer: " + jobDetails.company;
     descLink.textContent =  jobDetails.description;

@@ -1,6 +1,7 @@
 body {
   min-width: 500px;
-  
+   overflow-x: hidden;
+   margin-bottom:0px !important;
   
 }
 
@@ -12,7 +13,7 @@ body {
 
 #style-4::-webkit-scrollbar
 {
-	width: 5px;
+	  width: 5px;
 	background-color: #F5F5F5;
 }
 
@@ -37,6 +38,7 @@ button {
 
 #div {
   min-width: 400px;
+ 
   
 }
 
@@ -56,15 +58,19 @@ textarea{
   font-family: "Segoe UI";
 }
 ul{
-  margin-right:15px;
-padding:0px;
+padding: 0;
+-webkit-margin-before: 0 !important;
+-webkit-margin-after: 0 !important;
+    -webkit-margin-start: 0px !important;
+    -webkit-margin-end: 0px !important;
+    -webkit-padding-start: 0px !important;
 
 }
 
 
 
 
-$button-fontsize: 20px;
+$button-fontsize: 25px;
 
 $primary-text: white;
 $primary-text-dark: #222;
@@ -119,7 +125,7 @@ body {
   }
 
   i {
-    padding: 7px;
+    padding: 12px;
     font-size: $button-fontsize;
   }
 }
@@ -139,7 +145,7 @@ body {
 /* Tab */
 .tab {
   border-bottom: 1px solid #aaa;
-  box-shadow: 0px 1px 5px 0px #aaa;
+  //box-shadow: 0px 1px 5px 0px #aaa;
   color: $primary-text-dark;
   display: none;
   padding: 0px 20px;
@@ -153,7 +159,15 @@ body {
     padding: 15px 7px 4px 7px;
   }
 }
+#listAdd{
+  width: 100%;
+  margin: 13px auto;
+  text-align: center;
+   display: inline-block;
+     
+   
 
+}
 /* New Job */
 #newJob {
   #newJobDesLabel {padding-bottom: 10px;}
@@ -206,9 +220,9 @@ body {
 }
 
 .collapsible {
-  border-top: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-left: 1px solid #ddd;
+  //border-top: 1px solid #ddd;
+  //border-right: 1px solid #ddd;
+  //border-left: 1px solid #ddd;
   margin: 0.5rem 0 1rem 0;
   
   
@@ -241,7 +255,8 @@ body {
   display: none;
   border-bottom: 1px solid #ddd;
   box-sizing: border-box;
-  padding: 2rem;
+  padding-left: 2rem;
+  padding-bottom: 2rem;
 
  
 
