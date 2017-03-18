@@ -124,7 +124,7 @@ body {
 
 /* Tab */
 .tab {
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid $primary;
   //box-shadow: 0px 1px 5px 0px #aaa;
   box-shadow: 0px 1px 5px 0px  rgba(170,170,170,0.50);
   color: $primary-text-dark;
@@ -174,7 +174,7 @@ body {
     font-size: 16px;
     height: 96px;
     resize: vertical;
-    padding: 5px 0px;
+    padding: 5px 7px;
     max-width: 100%;
   }
 
@@ -183,7 +183,34 @@ body {
     border: 1px solid $primary-lightest;
     transition: $animation-duration;
   }
+
+  select {
+    font-size: 16px;
+    margin-top: 5px;
+    padding: 3px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+
+    option {
+      border: none;
+    }
+
+    option:not(:checked) { 
+      background-color: #FFF; 
+      color: $primary-text-dark
+    }
+  }
+
+  select:focus {
+    outline: 0;
+  }
 }
+
+/* Drop down menu color */
+.interested{background-color: #0F4DA8}
+.inProgress{background-color: #FFA100 }
+.completed{background-color: #009E00}
 
 #settings {
   padding-bottom: 10px;
@@ -208,15 +235,56 @@ body {
 .collapsible-header {
   display: block;
   cursor: pointer;
-  min-height: 3rem;
+  height: 3rem;
   line-height: 3rem;
   padding: 0 1rem;
   background-color: #fff;
   border-top: 1px solid #ddd;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  position: relative;
 }
+
+.header-compress {
+  display: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 8px;
+  text-align: center;
+  i {
+    float: none !important;
+    text-align: center;
+    display: inline-block !important;
+  }
+}
+
+.header-title {
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 70%;
+}
+
+.header-status {
+  display: inline-block;
+  width: 30%;
+  vertical-align:top;
+  padding-left: 25px;
+  line-height: 2.9rem;
+
+  span {
+    vertical-align: middle;
+    font-size: 13px;
+    color: white;
+    padding: 3px 7px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    line-height: 2.9rem;
+  }
+}
+
+
 
 .collapsible-header i {
   width: 2rem;
@@ -229,6 +297,9 @@ body {
 }
 
 .collapsible-body {
+  h4 a {
+    color: rgb(85, 26, 139)
+  }
   display: none;
   border-top: 1px solid #ddd;
   box-sizing: border-box;
@@ -253,3 +324,4 @@ body {
   box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
   margin: 16px 0;
 }
+

@@ -15,7 +15,7 @@ html
       div#toolbar-left
         // i#addJob.primary-button(class="fa fa-plus" aria-hidden="true")
       div#toolbar-right
-        i#export.primary-button(class="fa fa-cloud-upload" aria-hidden="true")
+        //i#export.primary-button(class="fa fa-cloud-upload" aria-hidden="true")
         i#changeSettings.primary-button(class="fa fa-cog" aria-hidden="true")
 
     div#newJob.tab
@@ -25,8 +25,14 @@ html
       input#newJobTitle(type="text")
       p Link
       input#newJobURL(type="text" spellcheck="false")
+      p Status
+      select#newJobStatus
+        option(status="interested" value="Interested") Interested
+        option(status="inProgress" value="In Progress") In Progress
+        option(status="completed" value="Completed") Completed
       p#newJobDesLabel Description
       textarea#newJobDescription
+    
       div.actionBar
         i#saveNewJob.dark-button(class="fa fa-floppy-o" aria-hidden="true")
         i#trashNewJob.dark-button(class="fa fa-trash-o" aria-hidden="true")

@@ -12,6 +12,12 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
 
 document.addEventListener('DOMContentLoaded', function() {
     getstoreAndRestoreInDom();
+
+    $("#newJobStatus").attr("class", $("option:selected", this).attr("status"));
+    $("#newJobStatus").change(function(){
+        var color = $("option:selected", this).attr("status");
+        $("#newJobStatus").attr("class", color);
+    });
     
     var newJobForm = document.getElementById('newJob');
     var settingsForm = document.getElementById('settings');
@@ -37,10 +43,10 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 document.getElementById('settingsAutofill').checked = true;
             }
-            if(settings.warning != null && settings.warning == false) {
-                document.getElementById('settingsWarning').checked = false;
-            } else {
+            if(settings.warning == true) {
                 document.getElementById('settingsWarning').checked = true;
+            } else {
+                document.getElementById('settingsWarning').checked = false;
             }
         });
         newJobForm.style.display = 'none';
@@ -129,6 +135,7 @@ function getNewJobForm() {
     job.url = document.getElementById('newJobURL').value;
     job.description = document.getElementById('newJobDescription').value;
     job.date = formatDate(new Date());
+    job.status = document.getElementById('newJobStatus').value;
     return job;
 }
 
@@ -144,9 +151,9 @@ function getstoreAndRestoreInDom(){
     document.getElementById("list").innerHTML = '';
 
     getJobs(function(jobs) {
-        jobs.forEach(function(job) {
-            addUrlToDom(job);
-        })
+        for(var i = jobs.length - 1; i >= 0; i--) {
+            addUrlToDom(jobs[i]);
+        }
     });
 }
 
@@ -165,7 +172,7 @@ function formatDate(date) {
     var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
-    return monthNames[date.getMonth() - 1] + ' ' + date.getDay() + ' ' + date.getFullYear();
+    return monthNames[date.getMonth()] + ' ' + date.getDay() + ' ' + date.getFullYear();
 }
 
 function addUrlToDom(jobDetails){
@@ -187,15 +194,37 @@ function addUrlToDom(jobDetails){
     trash.addEventListener('click', function(){removeJob(jobDetails, newLine)});
     trash.setAttribute('class','fa fa-trash-o grey-button');
     actionBar.appendChild(trash);
-    console.log(jobDetails);
+    console.log(jobDetails.status);
     
+    var statusClass = '';
+    if (jobDetails.status == 'Interested') {
+        statusClass = 'interested';
+    } else if (jobDetails.status == 'In Progress'){
+        statusClass = 'inProgress';
+    } else {
+        statusClass = 'completed';
+    }
 
+    var uncompressed = document.createElement('div');
+    uncompressed.innerHTML = '<div class="header-title">' + jobDetails.company.bold() + "   " + jobDetails.title + '</div>' + '<div class="header-status"><span class="' + statusClass + '">' + jobDetails.status + '</span></div>';
+    header.appendChild(uncompressed);
+    var compressed = document.createElement('div');
+    compressed.setAttribute('class','header-compress');
+    compressed.innerHTML = '<i class="fa fa-compress" aria-hidden="true"></i>';
+    header.appendChild(compressed);
+    header.addEventListener('click', function(event) {
+        if(!header.compress) {
+            header.compress = 1;
+            $(uncompressed).fadeOut(300);
+            $(compressed).fadeIn(300);
+        } else {
+            header.compress = 0;
+            $(uncompressed).fadeIn(300);
+            $(compressed).fadeOut(300);
+        }
 
-    header.innerHTML = jobDetails.title.bold() + "   " + jobDetails.company;
+    });
 
-    //header.setAttribute('href',jobDetails.url);
-    //header.setAttribute('target','_blank');
-    header.innerHTML = jobDetails.company.bold()+ "   " + jobDetails.title  ;
 
     var titleLinkTemp = '<i class="fa fa-link" aria-hidden="true"></i>' + " ";
     if (jobDetails.title == '') {
@@ -264,7 +293,11 @@ function loadSettings() {
             autofill = true;
         }
 
-        if(settings.warning != null && settings.warning) {
+        if (!settings.warning) {
+            settings.warning = false;
+        }
+
+        if( settings.warning == true) {
             warning = true;
         } else {
             warning = false;
