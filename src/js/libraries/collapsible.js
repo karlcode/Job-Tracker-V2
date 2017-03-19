@@ -47,6 +47,14 @@
         // Close previously open accordion elements.
         $panel_headers.not(object).parent().children('.collapsible-body').stop(true,false).each(function() {
           if ($(this).is(':visible')) {
+            var head = $($(this).parent().children()[0])[0];
+            head.compress = 0;
+            var compress = $(head).children();
+            compress.first().fadeIn();
+            $(compress[1]).fadeOut();
+            $(head).children('header-title').fadeIn();
+
+
             $(this).slideUp({
               duration: 350,
               easing: "easeOutQuart",

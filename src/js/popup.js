@@ -223,6 +223,17 @@ function addUrlToDom(jobDetails){
             $(compressed).fadeOut(300);
         }
 
+       /**
+
+        $(".collapsible-header").each(function(){
+            console.log($(this));
+            if($(this)[0] != header) {
+                $(this)[0].compress = 0;
+                $(this)[0].children[0].fadeIn();
+                $(this)[0].children[1].fadeOut();
+            }
+        });*/
+
     });
 
 
