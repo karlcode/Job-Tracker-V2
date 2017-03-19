@@ -1,13 +1,13 @@
 {
     "manifest_version": 2,
     "name": "Simple Job Tracker",
-    "description": "This extension saves an URL and renames the title to the user's wishes and hyperlink the title.",
-    "version": "0.1",
+    "description": "Keep track of  your job applications with this simple extension. Job details will be automaticall extracted from the current page.",
+    "version": "1.0",
 
     "browser_action": {
         "default_icon": "images/icon.png",
         "default_popup": "popup.html",
-        "default_title": "See your saved websites!"
+        "default_title": "Simple Job Tracker"
     },
     "permissions": [
         "tabs",
