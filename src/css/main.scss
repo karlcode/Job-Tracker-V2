@@ -91,6 +91,21 @@ body {
   transition: color $animation-duration;
 }
 
+select {
+  border: none;
+  border-radius: 10px;
+  color: white;
+
+  option {
+    border: none;
+  }
+
+  option:not(:checked) { 
+    background-color: #FFF; 
+    color: $primary-text-dark
+  }
+}
+
 
 /* Toolbar */
 #toolbar {
@@ -148,10 +163,11 @@ body {
   display: inline-block;
 }
 
+
+
 /* New Job */
 #newJob {
   #newJobDesLabel {padding-bottom: 10px;}
-
   input {
     border: none;
     border-bottom: 1px solid #ddd;
@@ -188,24 +204,25 @@ body {
     font-size: 16px;
     margin-top: 5px;
     padding: 3px;
-    border: none;
-    border-radius: 10px;
-    color: white;
-
-    option {
-      border: none;
-    }
-
-    option:not(:checked) { 
-      background-color: #FFF; 
-      color: $primary-text-dark
-    }
   }
 
   select:focus {
     outline: 0;
   }
 }
+
+.collapsible-body {
+  select {
+      font-size: 13px;
+      margin-top: 5px;
+      padding: 3px 7px;
+      display: block;
+  }
+  select:focus {
+    outline: 0;
+  }
+}
+
 
 /* Drop down menu color */
 .interested{background-color: #0F4DA8}

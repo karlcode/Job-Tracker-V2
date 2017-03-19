@@ -85,14 +85,12 @@ function getJobDetails(){
   extractURL(jobDetails);
   jobDetails.date = new Date();
 
-  if (!jobDetails.title) {
+  /*if (!jobDetails.title) {
     findTitle(jobDetails);
-  }
+  }*/
   console.log(jobDetails);
   return jobDetails;
 }
-
-
 
 chrome.runtime.sendMessage({
     action: "getAutofill",

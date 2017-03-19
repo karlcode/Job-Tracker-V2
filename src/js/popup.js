@@ -13,12 +13,6 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
 document.addEventListener('DOMContentLoaded', function() {
     getstoreAndRestoreInDom();
 
-    $("#newJobStatus").attr("class", $("option:selected", this).attr("status"));
-    $("#newJobStatus").change(function(){
-        var color = $("option:selected", this).attr("status");
-        $("#newJobStatus").attr("class", color);
-    });
-    
     var newJobForm = document.getElementById('newJob');
     var settingsForm = document.getElementById('settings');
     var addJobButton = document.getElementById('addJob');
@@ -154,6 +148,13 @@ function getstoreAndRestoreInDom(){
         for(var i = jobs.length - 1; i >= 0; i--) {
             addUrlToDom(jobs[i]);
         }
+        $("select").each(function() {
+            $(this).attr("class", $("option:selected", this).attr("status"));
+            $(this).change(function(){
+                var color = $("option:selected", this).attr("status");
+                $(this).attr("class", color);
+        });
+    });
     });
 }
 
@@ -175,6 +176,19 @@ function formatDate(date) {
     return monthNames[date.getMonth()] + ' ' + date.getDay() + ' ' + date.getFullYear();
 }
 
+function getStatusClass(status) {
+    var statusClass = '';
+    if (status == 'Interested') {
+        statusClass = 'interested';
+    } else if (status == 'In Progress'){
+        statusClass = 'inProgress';
+    } else {
+        statusClass = 'completed';
+    }
+
+    return statusClass;
+}
+
 function addUrlToDom(jobDetails){
     var p = document.createElement("p");
 
@@ -194,16 +208,9 @@ function addUrlToDom(jobDetails){
     trash.addEventListener('click', function(){removeJob(jobDetails, newLine)});
     trash.setAttribute('class','fa fa-trash-o grey-button');
     actionBar.appendChild(trash);
-    console.log(jobDetails.status);
     
-    var statusClass = '';
-    if (jobDetails.status == 'Interested') {
-        statusClass = 'interested';
-    } else if (jobDetails.status == 'In Progress'){
-        statusClass = 'inProgress';
-    } else {
-        statusClass = 'completed';
-    }
+    var statusClass = getStatusClass(jobDetails.status);
+
 
     var uncompressed = document.createElement('div');
     uncompressed.innerHTML = '<div class="header-title">' + jobDetails.company.bold() + "   " + jobDetails.title + '</div>' + '<div class="header-status"><span class="' + statusClass + '">' + jobDetails.status + '</span></div>';
@@ -222,18 +229,6 @@ function addUrlToDom(jobDetails){
             $(uncompressed).fadeIn(300);
             $(compressed).fadeOut(300);
         }
-
-       /**
-
-        $(".collapsible-header").each(function(){
-            console.log($(this));
-            if($(this)[0] != header) {
-                $(this)[0].compress = 0;
-                $(this)[0].children[0].fadeIn();
-                $(this)[0].children[1].fadeOut();
-            }
-        });*/
-
     });
 
 
@@ -250,12 +245,29 @@ function addUrlToDom(jobDetails){
     body.setAttribute('class','collapsible-body');
     titleLink.setAttribute('href',jobDetails.url);
     titleLink.setAttribute('target','_blank');
+
+    //status changer
+    var statusChanger = document.createElement('select');
+    statusChanger.innerHTML = '<option status="interested" value="Interested">Interested</option>' +
+                              '<option status="inProgress" value="In Progress">In Progress</option>' +
+                              '<option status="completed" value="Completed">Completed</option>';
+
+    $(statusChanger).val(jobDetails.status);
+    statusChanger.addEventListener('change', function() {
+        var newStatus = $(this).val();
+        jobList[jobList.indexOf(jobDetails)].status = newStatus;
+        saveJobs();
+        var headerStatus = $(this).parent().parent().find('.header-status span');
+        $(headerStatus).attr('class', getStatusClass(newStatus));
+        $(headerStatus).text(newStatus);
+    })
     
     newLine.appendChild(header);
     newLine.appendChild(body);
     body.appendChild(titleHead);
     titleHead.appendChild(titleLink);
     body.appendChild(employHead);
+    body.appendChild(statusChanger);
     body.appendChild(descLink);
     body.appendChild(p);
     body.appendChild(timeLink);
